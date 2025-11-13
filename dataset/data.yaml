@@ -1,0 +1,10 @@
+path: C:/Users/Steal/OneDrive/Documents/Personal_Projects/handcursorx/dataset
+train: images/train
+val: images/train
+
+names:
+  0: thumb_index
+  1: thumb_middle
+  2: thumb_out
+  3: pinky_out
+  4: fist
