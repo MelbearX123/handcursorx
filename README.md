@@ -1,4 +1,4 @@
-# handcursorx
+s# handcursorx
 
 Control your cursor with hand gestures via webcam, using MediaPipe hand
 landmarks (not a custom-trained detector — see `archive_yolo/` for the old
