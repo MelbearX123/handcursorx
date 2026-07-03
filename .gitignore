@@ -1,5 +1,14 @@
-venv
-hand_gestures
-videos
-Hand_Videos
-test.py
+# Environments
+venv/
+__pycache__/
+*.pyc
+
+# Old YOLO work — keep code, ignore heavy data/artifacts
+archive_yolo/Hand_Videos/
+archive_yolo/dataset/
+archive_yolo/runs/
+archive_yolo/*.pt
+
+# Future classifier pipeline (project #1)
+data/*.csv
+models/*.pkl
