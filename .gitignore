@@ -1,5 +1,5 @@
 # Environments
-venv/
+.venv/
 __pycache__/
 *.pyc
 
@@ -8,6 +8,9 @@ archive_yolo/Hand_Videos/
 archive_yolo/dataset/
 archive_yolo/runs/
 archive_yolo/*.pt
+
+# MediaPipe model bundle (downloaded, not committed — see README Setup)
+models/*.task
 
 # Future classifier pipeline (project #1)
 data/*.csv

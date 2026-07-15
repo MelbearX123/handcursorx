@@ -1,4 +1,4 @@
-s# handcursorx
+# handcursorx
 
 Control your cursor with hand gestures via webcam, using MediaPipe hand
 landmarks (not a custom-trained detector — see `archive_yolo/` for the old
@@ -29,11 +29,23 @@ archive_yolo/        the old YOLO detection work (kept for reference)
 ## Setup
 
 ```
-python -m venv venv
-venv\Scripts\activate        # Windows
+python -m venv .venv
+.venv\Scripts\activate       # Windows
 pip install -r requirements.txt
 python main.py
 ```
+
+### Model
+
+The MediaPipe hand-landmark model isn't committed (it's ~8 MB and gitignored).
+Download it once into `models/`:
+
+```
+curl -L -o models/hand_landmarker.task ^
+  https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task
+```
+
+Source: [MediaPipe HandLandmarker models](https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker#models)
 
 ## Gestures (planned)
 
