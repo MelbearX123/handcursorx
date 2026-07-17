@@ -19,6 +19,7 @@ from config import MAX_NUM_HANDS, MIN_DETECTION_CONFIDENCE, MIN_TRACKING_CONFIDE
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
+from mediapipe.tasks.python.components.containers.landmark import NormalizedLandmark
 
 # Absolute path to the model
 _MODEL_PATH = Path(__file__).resolve().parent.parent / "models" / "hand_landmarker.task"
@@ -37,7 +38,7 @@ class HandTracker:
         self._detector = vision.HandLandmarker.create_from_options(self._options)
         self._last_timestamp_ms = -1
 
-    def process(self, frame: MatLike):
+    def process(self, frame: MatLike) -> list[NormalizedLandmark] | None:
         """Return the 21 landmarks for the first hand, or None."""
 
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
