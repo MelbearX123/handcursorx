@@ -11,12 +11,27 @@ from cv2.typing import MatLike
 from mediapipe.tasks.python.components.containers.landmark import NormalizedLandmark
 
 _HAND_CONNECTIONS = (
-    (0, 1), (0, 5), (5, 9), (9, 13), (13, 17), (0, 17),  # palm
-    (1, 2), (2, 3), (3, 4),                              # thumb
-    (5, 6), (6, 7), (7, 8),                              # index
-    (9, 10), (10, 11), (11, 12),                         # middle
-    (13, 14), (14, 15), (15, 16),                        # ring
-    (17, 18), (18, 19), (19, 20),                        # pinky
+    (0, 1),
+    (0, 5),
+    (5, 9),
+    (9, 13),
+    (13, 17),
+    (0, 17),  # ^ palm
+    (1, 2),
+    (2, 3),
+    (3, 4),  # ^ thumb
+    (5, 6),
+    (6, 7),
+    (7, 8),  # ^ index
+    (9, 10),
+    (10, 11),
+    (11, 12),  # ^ middle
+    (13, 14),
+    (14, 15),
+    (15, 16),  # ^ ring
+    (17, 18),
+    (18, 19),
+    (19, 20),  # ^ pinky
 )
 
 
