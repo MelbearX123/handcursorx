@@ -9,6 +9,7 @@ import cv2
 from config import QUIT_KEY, FLIP_HORIZONTAL, CAMERA_INDEX, SHOW_OVERLAY
 from handcursor.overlay import draw_overlay
 from handcursor.tracker import HandTracker
+from handcursor.position import PositionEngine
 
 
 def main():
@@ -18,6 +19,7 @@ def main():
         return
 
     tracker = HandTracker()
+    position = PositionEngine()
 
     while True:
         ret, frame = cap.read()
@@ -32,6 +34,9 @@ def main():
         landmarks = tracker.process(frame=frame)
         if landmarks and SHOW_OVERLAY:
             draw_overlay(frame, landmarks, None)
+
+        if landmarks:
+            position.update(landmarks=landmarks)
 
         cv2.imshow("Handcursor", frame)
         if cv2.waitKey(1) & 0xFF == ord(QUIT_KEY):

@@ -16,11 +16,23 @@ Note: pyautogui raises on the corner failsafe; decide whether to disable it
 (and keep a keyboard quit key if you do).
 """
 
+import pyautogui as pag
+from mediapipe.tasks.python.components.containers.landmark import NormalizedLandmark
+
+pag.PAUSE = 0
+pag.FAILSAFE = False
+
 
 class PositionEngine:
     def __init__(self):
-        raise NotImplementedError
+        self._screen_size = pag.size()
+        self._width = self._screen_size[0]
+        self._height = self._screen_size[1]
 
-    def update(self, landmarks):
-        """Map index tip -> screen, smooth, and move the cursor."""
-        raise NotImplementedError
+    def update(self, landmarks: list[NormalizedLandmark]) -> None:
+        index = landmarks[8]
+        if index.x is None or index.y is None:
+            return
+        screen_x = index.x * self._width
+        screen_y = index.y * self._height
+        pag.moveTo(screen_x, screen_y)
