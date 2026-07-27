@@ -8,6 +8,7 @@ position engine and gesture controller get wired in here as they're built.)
 import cv2
 from config import QUIT_KEY, FLIP_HORIZONTAL, CAMERA_INDEX, SHOW_OVERLAY
 from handcursor.overlay import draw_overlay
+from handcursor.gestures import is_pointing
 from handcursor.tracker import HandTracker
 from handcursor.position import PositionEngine
 
@@ -35,7 +36,7 @@ def main():
         if landmarks and SHOW_OVERLAY:
             draw_overlay(frame, landmarks, None)
 
-        if landmarks:
+        if landmarks and is_pointing(landmarks=landmarks):
             position.update(landmarks=landmarks)
 
         cv2.imshow("Handcursor", frame)

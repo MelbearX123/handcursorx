@@ -19,6 +19,8 @@ Later, classifier.py can provide these same labels from a trained model; the
 controller shouldn't care whether a label came from an `if` or a model.
 """
 
+from mediapipe.tasks.python.components.containers.landmark import NormalizedLandmark
+
 
 def hand_scale(landmarks):
     """Reference length (wrist -> middle knuckle) for normalizing distances."""
@@ -35,3 +37,11 @@ def is_right_pinch(landmarks):
 
 def is_fist(landmarks):
     raise NotImplementedError
+
+
+def is_pointing(landmarks: list[NormalizedLandmark]) -> bool:
+    tip = landmarks[8]
+    pip = landmarks[6]
+    if tip.y is None or pip.y is None:
+        return False
+    return tip.y < pip.y
