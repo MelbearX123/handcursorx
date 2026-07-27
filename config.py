@@ -17,6 +17,8 @@ MIN_TRACKING_CONFIDENCE = 0.5
 SMOOTHING_ALPHA = 0.4  # EMA factor; higher = snappier, lower = smoother
 DEAD_ZONE = 0.2  # fraction of frame cropped on each edge before mapping
 # (0.2 => center 60% of the view maps to full screen)
+X_FACTOR = 1.5
+Y_FACTOR = 1.5
 
 # --- Gesture engine ---
 PINCH_THRESHOLD = 0.08  # normalized tip-to-tip distance to count as a pinch
