@@ -19,16 +19,27 @@ Later, classifier.py can provide these same labels from a trained model; the
 controller shouldn't care whether a label came from an `if` or a model.
 """
 
+import math
+
 from mediapipe.tasks.python.components.containers.landmark import NormalizedLandmark
+from config import PINCH_THRESHOLD
 
 
-def hand_scale(landmarks):
-    """Reference length (wrist -> middle knuckle) for normalizing distances."""
-    raise NotImplementedError
+def _distance(a: NormalizedLandmark, b: NormalizedLandmark) -> float:
+    """Euclidean distance between two landmarks in normalized (x, y) space."""
+    assert a.x is not None and a.y is not None
+    assert b.x is not None and b.y is not None
+    return math.hypot(a.x - b.x, a.y - b.y)
 
 
-def is_pinch(landmarks):
-    raise NotImplementedError
+def hand_scale(landmarks: list[NormalizedLandmark]) -> float:
+    """Apparent hand size: wrist(0) -> middle knuckle(9) distance."""
+    return _distance(landmarks[0], landmarks[9])
+
+
+def is_pinch(landmarks: list[NormalizedLandmark]) -> bool:
+    """Thumb tip(4) touching index tip(8), measured as a fraction of hand size."""
+    return _distance(landmarks[4], landmarks[8]) / hand_scale(landmarks) < PINCH_THRESHOLD
 
 
 def is_right_pinch(landmarks):
@@ -40,6 +51,7 @@ def is_fist(landmarks):
 
 
 def is_pointing(landmarks: list[NormalizedLandmark]) -> bool:
+    """Checks if index tip(8) is higher than pip(6)."""
     tip = landmarks[8]
     pip = landmarks[6]
     if tip.y is None or pip.y is None:
