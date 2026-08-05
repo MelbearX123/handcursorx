@@ -7,8 +7,7 @@ held pinch clicks once, not every frame.
 
 import time
 
-from mediapipe.tasks.python.components.containers.landmark import NormalizedLandmark
-from handcursor.gestures import gesture_check, Gesture
+from handcursor.gestures import Gesture
 from config import DEBOUNCE_FRAMES, COOLDOWN_MS
 import pyautogui as pag
 
@@ -19,17 +18,15 @@ class GestureController:
         self._framesPerAction = 0
         self._pending = None
 
-    def update(self, landmarks: list[NormalizedLandmark]) -> None:
-        """Evaluate the gesture, debounce it, and fire a click once per hold."""
-        current_gesture = gesture_check(landmarks=landmarks)
-
+    def update(self, gesture: Gesture) -> None:
+        """Debounce the gesture and fire a click once per hold."""
         # Reset the frame counter
-        if current_gesture != self._pending:
-            self._pending = current_gesture
+        if gesture != self._pending:
+            self._pending = gesture
             self._framesPerAction = 0
 
         # POINTING (cursor) and NONE (idle) handled elsewhere or not at all.
-        if current_gesture is Gesture.NONE or current_gesture is Gesture.POINTING:
+        if gesture is Gesture.NONE or gesture is Gesture.POINTING:
             return
 
         self._framesPerAction += 1
@@ -42,7 +39,7 @@ class GestureController:
         if self._lastActionMs is not None and now_ms - self._lastActionMs < COOLDOWN_MS:
             return
 
-        match current_gesture:
+        match gesture:
             case Gesture.PINCH:
                 pag.leftClick()
             case Gesture.RIGHT_PINCH:

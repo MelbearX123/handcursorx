@@ -11,6 +11,7 @@ from handcursor.overlay import draw_overlay
 from handcursor.gestures import gesture_check, Gesture
 from handcursor.tracker import HandTracker
 from handcursor.position import PositionEngine
+from handcursor.controller import GestureController
 
 
 def main():
@@ -21,6 +22,7 @@ def main():
 
     tracker = HandTracker()
     position = PositionEngine()
+    controller = GestureController()
 
     while True:
         ret, frame = cap.read()
@@ -40,6 +42,8 @@ def main():
 
         if landmarks and gesture == Gesture.POINTING:
             position.update(landmarks=landmarks)
+
+        controller.update(gesture)
 
         cv2.imshow("Handcursor", frame)
         if cv2.waitKey(1) & 0xFF == ord(QUIT_KEY):

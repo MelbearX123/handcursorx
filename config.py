@@ -21,7 +21,7 @@ X_FACTOR = 1.5
 Y_FACTOR = 1.5
 
 # --- Gesture engine ---
-PINCH_THRESHOLD = 0.08  # normalized tip-to-tip distance to count as a pinch
+PINCH_THRESHOLD = 0.2  # normalized tip-to-tip distance to count as a pinch
 FIST_THRESHOLD = 0.15  # normalized tip-to-wrist distance to count as closed
 DEBOUNCE_FRAMES = 3  # consecutive true frames required before a gesture fires
 COOLDOWN_MS = 300  # min time before the same action can fire again
