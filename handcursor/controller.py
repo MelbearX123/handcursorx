@@ -15,7 +15,6 @@ import pyautogui as pag
 
 class GestureController:
     def __init__(self):
-        self._state = None
         self._lastActionMs = None
         self._framesPerAction = 0
         self._pending = None

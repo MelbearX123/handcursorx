@@ -40,7 +40,18 @@ def draw_overlay(
     landmarks: list[NormalizedLandmark] | None,
     state: str | None,
 ) -> MatLike:
-    """Draw the hand's landmarks + skeleton onto the frame (in place)."""
+    """Draw the gesture text + hand landmarks/skeleton onto the frame (in place)."""
+    if state:
+        cv2.putText(
+            frame,
+            state,
+            (10, 40),  # bottom-left of the text, in pixels
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1.0,  # font scale
+            (0, 255, 0),
+            2,  # thickness
+            cv2.LINE_AA,
+        )
     if landmarks is None:
         return frame
     h, w = frame.shape[:2]
