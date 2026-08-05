@@ -22,7 +22,7 @@ class PositionEngine:
         self._prev_y = None
 
     def update(self, landmarks: list[NormalizedLandmark]) -> None:
-        index = landmarks[8]
+        index = landmarks[5]
         if index.x is None or index.y is None:
             return
         screen_x = index.x * self._width * X_FACTOR
