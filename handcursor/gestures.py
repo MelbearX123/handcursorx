@@ -44,7 +44,7 @@ def is_pinch(landmarks: list[NormalizedLandmark]) -> bool:
     )
 
 
-def is_right_pinch(landmarks):
+def is_right_pinch(landmarks: list[NormalizedLandmark]) -> bool:
     """Thumb tip(4) touching middle finger tip(12), measured as a fraction of hand size."""
     return (
         _distance(landmarks[4], landmarks[12]) / hand_scale(landmarks) < PINCH_THRESHOLD
