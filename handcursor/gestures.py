@@ -86,6 +86,8 @@ def gesture_check(landmarks: list[NormalizedLandmark]) -> Gesture:
         return Gesture.PINCH
     if is_right_pinch(landmarks):
         return Gesture.RIGHT_PINCH
+    if is_open_palm:
+        return Gesture.OPEN_PALM
     if is_pointing(landmarks):
         return Gesture.POINTING
     return Gesture.NONE
