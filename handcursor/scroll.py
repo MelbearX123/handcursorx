@@ -12,7 +12,13 @@ from collections import deque
 import pyautogui as pag
 from mediapipe.tasks.python.components.containers.landmark import NormalizedLandmark
 from handcursor.gestures import Gesture
-from config import SWIPE_WINDOW, SWIPE_THRESHOLD, SCROLL_AMOUNT, SCROLL_COOLDOWN_MS, SWIPE_THRESHOLD
+from config import (
+    SWIPE_WINDOW,
+    SWIPE_THRESHOLD,
+    SCROLL_AMOUNT,
+    SCROLL_COOLDOWN_MS,
+    SWIPE_THRESHOLD,
+)
 
 
 class ScrollEngine:
@@ -41,10 +47,13 @@ class ScrollEngine:
             return
 
         now_ms = time.monotonic() * 1000
-        if self._lastScrollMs is not None and now_ms - self._lastScrollMs < SCROLL_COOLDOWN_MS:
+        if (
+            self._lastScrollMs is not None
+            and now_ms - self._lastScrollMs < SCROLL_COOLDOWN_MS
+        ):
             return
 
         pag.scroll(SCROLL_AMOUNT if displacement < 0 else -SCROLL_AMOUNT)
 
         self._lastScrollMs = now_ms
-        self._history.clear() 
+        self._history.clear()

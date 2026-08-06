@@ -56,7 +56,7 @@ def is_fist(landmarks: list[NormalizedLandmark]) -> bool:
 
 
 def is_open_palm(landmarks: list[NormalizedLandmark]) -> bool:
-    """All four fingers extended: each tip is farther from the wrist than its MCP """
+    """All four fingers extended: each tip is farther from the wrist than its MCP"""
     wrist = landmarks[0]
     finger_tips = [8, 12, 16, 20]
     finger_mcps = [5, 9, 13, 17]

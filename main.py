@@ -12,6 +12,7 @@ from handcursor.gestures import gesture_check, Gesture
 from handcursor.tracker import HandTracker
 from handcursor.position import PositionEngine
 from handcursor.controller import GestureController
+from handcursor.scroll import ScrollEngine
 
 
 def main():
@@ -23,6 +24,7 @@ def main():
     tracker = HandTracker()
     position = PositionEngine()
     controller = GestureController()
+    scroll = ScrollEngine()
 
     while True:
         ret, frame = cap.read()
@@ -44,6 +46,7 @@ def main():
             position.update(landmarks=landmarks)
 
         controller.update(gesture)
+        scroll.update(gesture, landmarks)
 
         cv2.imshow("Handcursor", frame)
         if cv2.waitKey(1) & 0xFF == ord(QUIT_KEY):
