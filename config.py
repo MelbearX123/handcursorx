@@ -26,6 +26,12 @@ FIST_THRESHOLD = 0.15  # normalized tip-to-wrist distance to count as closed
 DEBOUNCE_FRAMES = 3  # consecutive true frames required before a gesture fires
 COOLDOWN_MS = 300  # min time before the same action can fire again
 
+# --- Scroll engine ---
+SWIPE_WINDOW = 10  # frames of wrist history used to measure a swipe
+SWIPE_THRESHOLD = 0.2  # normalized vertical displacement to count as a swipe
+SCROLL_AMOUNT = 100  # pag.scroll magnitude per swipe
+SCROLL_COOLDOWN_MS = 300  # min time between scroll bursts
+
 # --- Debug ---
 SHOW_OVERLAY = True
 QUIT_KEY = "f"

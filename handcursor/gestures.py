@@ -82,12 +82,12 @@ def gesture_check(landmarks: list[NormalizedLandmark]) -> Gesture:
     thumb-index pinch also satisfies "index extended" so
     the cursor holds still while you click.
     """
-    if is_pinch(landmarks):
+    if is_pinch(landmarks=landmarks):
         return Gesture.PINCH
-    if is_right_pinch(landmarks):
+    if is_right_pinch(landmarks=landmarks):
         return Gesture.RIGHT_PINCH
-    if is_open_palm:
+    if is_open_palm(landmarks=landmarks):
         return Gesture.OPEN_PALM
-    if is_pointing(landmarks):
+    if is_pointing(landmarks=landmarks):
         return Gesture.POINTING
     return Gesture.NONE
