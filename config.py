@@ -6,31 +6,28 @@ All other modules import their constants from this file.
 
 # --- Camera ---
 CAMERA_INDEX = 0
-FLIP_HORIZONTAL = True  # mirror the frame so hand-right == cursor-right
-
+FLIP_HORIZONTAL = True
 # --- MediaPipe ---
 MAX_NUM_HANDS = 1
 MIN_DETECTION_CONFIDENCE = 0.7
 MIN_TRACKING_CONFIDENCE = 0.5
 
 # --- Position engine ---
-SMOOTHING_ALPHA = 0.4  # EMA factor; higher = snappier, lower = smoother
-DEAD_ZONE = 0.2  # fraction of frame cropped on each edge before mapping
-# (0.2 => center 60% of the view maps to full screen)
+SMOOTHING_ALPHA = 0.4
+DEAD_ZONE = 0.2 
 X_FACTOR = 1.5
 Y_FACTOR = 1.5
 
 # --- Gesture engine ---
-PINCH_THRESHOLD = 0.2  # normalized tip-to-tip distance to count as a pinch
-FIST_THRESHOLD = 0.15  # normalized tip-to-wrist distance to count as closed
-DEBOUNCE_FRAMES = 3  # consecutive true frames required before a gesture fires
-COOLDOWN_MS = 300  # min time before the same action can fire again
+PINCH_THRESHOLD = 0.2
+FIST_THRESHOLD = 0.15
+DEBOUNCE_FRAMES = 3  
+COOLDOWN_MS = 300
 
 # --- Scroll engine ---
-SWIPE_WINDOW = 10  # frames of wrist history used to measure a swipe
-SWIPE_THRESHOLD = 0.2  # normalized vertical displacement to count as a swipe
-SCROLL_AMOUNT = 100  # pag.scroll magnitude per swipe
-SCROLL_COOLDOWN_MS = 300  # min time between scroll bursts
+SCROLL_GAIN = 500
+SCROLL_SMOOTHING = 0.5
+SCROLL_FRICTION = 0.9
 
 # --- Debug ---
 SHOW_OVERLAY = True

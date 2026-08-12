@@ -1,59 +1,53 @@
-"""Scroll engine: open-palm vertical swipe -> scroll.
+"""Scroll engine: open-palm hand movement -> continuous scroll.
 
-Stateful sibling of position.py -- while armed (open palm), tracks the wrist's
-recent y in a rolling window and fires pag.scroll when the vertical displacement
-across it exceeds SWIPE_THRESHOLD. Needs history (hence stateful), so it lives
-here rather than in the stateless gestures.py.
+Stateful sibling of position.py. While armed (open palm), scrolls every frame by
+an amount proportional to how fast the wrist is moving vertically -- slow
+movement nudges, fast movement flies (direct-manipulation, iPad-style), instead
+of firing one discrete burst per detected swipe. Velocity is EMA-smoothed so it
+glides rather than jitters, and on release the velocity decays by SCROLL_FRICTION
+so a flick coasts to a stop (momentum). Stateful (needs the previous frame), so
+it lives here rather than in the stateless gestures.py.
 """
-
-import time
-from collections import deque
 
 import pyautogui as pag
 from mediapipe.tasks.python.components.containers.landmark import NormalizedLandmark
 from handcursor.gestures import Gesture
-from config import (
-    SWIPE_WINDOW,
-    SWIPE_THRESHOLD,
-    SCROLL_AMOUNT,
-    SCROLL_COOLDOWN_MS,
-    SWIPE_THRESHOLD,
-)
+from config import SCROLL_GAIN, SCROLL_SMOOTHING, SCROLL_FRICTION
 
 
 class ScrollEngine:
     def __init__(self):
-        self._history = deque(maxlen=SWIPE_WINDOW)
-        self._lastScrollMs = None
+        self._prev_y = None
+        self._velocity = 0.0
 
     def update(
         self, gesture: Gesture, landmarks: list[NormalizedLandmark] | None
     ) -> None:
-        """Track wrist motion while armed; fire pag.scroll on a vertical swipe."""
+        """Scroll proportional to wrist speed; coast with momentum after release."""
+        # Released (not open palm / no hand): coast on the leftover velocity,
+        # decaying it each frame until it's too small to move a line. This is the
+        # inertia -- a fast flick keeps scrolling after you lower your hand.
         if gesture is not Gesture.OPEN_PALM or landmarks is None:
-            self._history.clear()
+            self._prev_y = None  # re-arming later seeds fresh (no jump)
+            self._velocity *= SCROLL_FRICTION
+            amount = int(-self._velocity * SCROLL_GAIN)
+            if amount == 0:
+                self._velocity = 0.0  # coast has died out
+            else:
+                pag.scroll(amount)
             return
 
         wrist_y = landmarks[0].y
         if wrist_y is None:
             return
-        self._history.append(wrist_y)
 
-        if len(self._history) < SWIPE_WINDOW:
+        if self._prev_y is None:
+            self._prev_y = wrist_y
             return
 
-        displacement = self._history[-1] - self._history[0]
-        if abs(displacement) < SWIPE_THRESHOLD:
-            return
+        dy = wrist_y - self._prev_y  # per-frame movement; bigger = faster hand
+        self._prev_y = wrist_y
 
-        now_ms = time.monotonic() * 1000
-        if (
-            self._lastScrollMs is not None
-            and now_ms - self._lastScrollMs < SCROLL_COOLDOWN_MS
-        ):
-            return
-
-        pag.scroll(SCROLL_AMOUNT if displacement < 0 else -SCROLL_AMOUNT)
-
-        self._lastScrollMs = now_ms
-        self._history.clear()
+        # EMA-smooth the velocity so scrolling glides instead of jittering.
+        self._velocity = SCROLL_SMOOTHING * dy + (1 - SCROLL_SMOOTHING) * self._velocity
+        pag.scroll(int(-self._velocity * SCROLL_GAIN))
