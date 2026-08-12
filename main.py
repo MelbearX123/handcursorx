@@ -49,7 +49,7 @@ def main():
         scroll.update(gesture, landmarks)
 
         cv2.imshow("Handcursor", frame)
-        if cv2.waitKey(1) & 0xFF == ord(QUIT_KEY):
+        if cv2.waitKey(1) & 0xFF == QUIT_KEY:
             break
 
     cap.release()

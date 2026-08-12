@@ -31,4 +31,4 @@ SCROLL_FRICTION = 0.9
 
 # --- Debug ---
 SHOW_OVERLAY = True
-QUIT_KEY = "f"
+QUIT_KEY = 27  # Escape key
