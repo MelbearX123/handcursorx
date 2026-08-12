@@ -1,8 +1,4 @@
 """Entry point for handcursorx.
-
-Wiring only: capture a frame, flip it, run the tracker, draw the overlay, show
-it. Keep this thin -- real logic belongs in modules under handcursor/. (The
-position engine and gesture controller get wired in here as they're built.)
 """
 
 import cv2

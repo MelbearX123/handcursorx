@@ -25,7 +25,7 @@ class ScrollEngine:
         if gesture is not Gesture.OPEN_PALM or landmarks is None:
             self._prev_y = None 
             self._velocity *= SCROLL_FRICTION
-            amount = int(-self._velocity * SCROLL_GAIN)
+            amount = int(self._velocity * SCROLL_GAIN)
             if amount == 0:
                 self._velocity = 0.0 
             else:
@@ -44,4 +44,4 @@ class ScrollEngine:
         self._prev_y = wrist_y
 
         self._velocity = SCROLL_SMOOTHING * dy + (1 - SCROLL_SMOOTHING) * self._velocity
-        pag.scroll(int(-self._velocity * SCROLL_GAIN))
+        pag.scroll(int(self._velocity * SCROLL_GAIN))
