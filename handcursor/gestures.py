@@ -22,6 +22,7 @@ class Gesture(Enum):
     PINCH = auto()  # thumb + index -> left click
     RIGHT_PINCH = auto()  # thumb + middle -> right click
     OPEN_PALM = auto()  # open palm -> scroll enabled
+    FIST = auto()  # closed fist -> brake / stop scroll
 
 
 def _distance(a: NormalizedLandmark, b: NormalizedLandmark) -> float:
@@ -52,7 +53,13 @@ def is_right_pinch(landmarks: list[NormalizedLandmark]) -> bool:
 
 def is_fist(landmarks: list[NormalizedLandmark]) -> bool:
     """Distance from tips to wrist is shorter than distance from MCP to wrist"""
-    raise NotImplementedError
+    wrist = landmarks[0]
+    finger_tips = [8, 12, 16, 20]
+    finger_mcps = [5, 9, 13, 17]
+    for tip, mcp in zip(finger_tips, finger_mcps):
+        if _distance(landmarks[tip], wrist) >= _distance(landmarks[mcp], wrist):
+            return False
+    return True
 
 
 def is_open_palm(landmarks: list[NormalizedLandmark]) -> bool:
@@ -82,6 +89,8 @@ def gesture_check(landmarks: list[NormalizedLandmark]) -> Gesture:
     thumb-index pinch also satisfies "index extended" so
     the cursor holds still while you click.
     """
+    if is_fist(landmarks=landmarks):
+        return Gesture.FIST
     if is_pinch(landmarks=landmarks):
         return Gesture.PINCH
     if is_right_pinch(landmarks=landmarks):

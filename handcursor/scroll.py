@@ -16,12 +16,18 @@ class ScrollEngine:
         self, gesture: Gesture, landmarks: list[NormalizedLandmark] | None
     ) -> None:
         """Scroll proportional to wrist speed; coast with momentum after release."""
+        # fist kills all scrolling
+        if gesture is Gesture.FIST:
+            self._velocity = 0.0
+            self._prev_y = None
+            return
+
         if gesture is not Gesture.OPEN_PALM or landmarks is None:
             self._prev_y = None 
             self._velocity *= SCROLL_FRICTION
             amount = int(-self._velocity * SCROLL_GAIN)
             if amount == 0:
-                self._velocity = 0.0  # coast has died out
+                self._velocity = 0.0 
             else:
                 pag.scroll(amount)
             return

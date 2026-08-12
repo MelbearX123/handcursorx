@@ -25,8 +25,9 @@ class GestureController:
             self._pending = gesture
             self._framesPerAction = 0
 
-        # POINTING (cursor) and NONE (idle) handled elsewhere or not at all.
-        if gesture is Gesture.NONE or gesture is Gesture.POINTING:
+        # Only PINCH / RIGHT_PINCH are clicks; everything else is handled
+        # elsewhere (cursor, scroll, brake) or not at all.
+        if gesture not in (Gesture.PINCH, Gesture.RIGHT_PINCH):
             return
 
         self._framesPerAction += 1
