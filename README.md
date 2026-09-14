@@ -97,9 +97,8 @@ object detector** trained from scratch. That work lives in `archive_yolo/`:
 - **Hand-labelled 8000+ frames in [CVAT](https://www.cvat.ai/).** Every frame
   got a bounding box + gesture class, drawn by hand. This was the bulk of the
   effort — annotation, not code.
-- **Trained a YOLOv11 detector** (`yolo11n.pt` base) on the annotated dataset,
-  **CUDA-accelerated** on a local GPU (`runs/` holds the training outputs and
-  weights).
+- **Trained a YOLOv8 detector** on the annotated dataset, **CUDA-accelerated**
+  on a local GPU (`runs/` holds the training outputs and weights).
 
 **Why it was abandoned.** Detecting a whole-hand bounding box *per gesture* is
 the wrong tool for cursor control: it throws away the structure of the hand, so
